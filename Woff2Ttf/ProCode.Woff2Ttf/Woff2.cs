@@ -12,15 +12,33 @@ namespace ProCode.Woff2Ttf
     /// </summary>
     public class Woff2
     {
-        #region MyRegion
+        #region Constructor
 
         public Woff2(Stream inputData)
         {
-
+            header = new Woff2Header();
         }
-        
+
         #endregion
 
+        #region Public Methods
 
+        public void ConvertToTtf()
+        {
+
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        public Woff2Header Header { get; }
+
+        #endregion
+
+        #region Private Properties
+
+        Woff2Header header;
+        #endregion
     }
 }
