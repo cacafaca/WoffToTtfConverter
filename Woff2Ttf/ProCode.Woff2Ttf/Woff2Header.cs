@@ -26,6 +26,8 @@ namespace ProCode.Woff2Ttf
     /// - UInt32 privOffset           Offset to private data block, from beginning of WOFF file.
     /// - UInt32  privLength          Length of private data block.    
     /// 
+    /// Sum is 48 Bytes to read.
+    /// 
     /// </summary>
     public class Woff2Header
     {
@@ -33,7 +35,7 @@ namespace ProCode.Woff2Ttf
 
         public Woff2Header(Stream headerStream)
         {
-            if (headerStream != null)
+            if (headerStream == null)
                 throw new ArgumentNullException(nameof(headerStream));
 
             if (headerStream.CanRead)
@@ -41,15 +43,7 @@ namespace ProCode.Woff2Ttf
                 if (headerStream.Position > 0)
                     headerStream.Position = 0;
 
-                int currentByte;
-
-                // UInt32 signature            0x774F4632 'wOF2'
-                ReadSignature(headerStream);
-                byte[] signatureByte = new byte[4];
-
-                currentByte = headerStream.ReadByte();
-                if (currentByte > -1)
-                    signatureByte[0] = (byte)currentByte;
+                ReadSignature(headerStream); // UInt32 signature            0x774F4632 'wOF2'
             }
             else
                 throw new ArgumentException("Can't read.");
@@ -61,18 +55,18 @@ namespace ProCode.Woff2Ttf
 
         public UInt32 Signature { get { return signature; } }
         public UInt32 Flavor { get { return flavor; } }
-        UInt32 Length { get { return length; } }
-        UInt16 NumTables { get { return numTables; } }
-        UInt16 Reserved { get { return reserved; } }
-        UInt32 TotalSfntSize { get { return totalSfntSize; } }
-        UInt32 TotalCompressedSize { get { return totalCompressedSize; } }
-        UInt16 MajorVersion { get { return majorVersion; } }
-        UInt16 MinorVersion { get { return minorVersion; } }
-        UInt32 MetaOffset { get { return metaOffset; } }
-        UInt32 MetaLength { get { return metaLength; } }
-        UInt32 MetaOrigLength { get { return metaOrigLength; } }
-        UInt32 PrivOffset { get { return privOffset; } }
-        UInt32 PrivLength { get { return privLength; } }
+        public UInt32 Length { get { return length; } }
+        public UInt16 NumTables { get { return numTables; } }
+        public UInt16 Reserved { get { return reserved; } }
+        public UInt32 TotalSfntSize { get { return totalSfntSize; } }
+        public UInt32 TotalCompressedSize { get { return totalCompressedSize; } }
+        public UInt16 MajorVersion { get { return majorVersion; } }
+        public UInt16 MinorVersion { get { return minorVersion; } }
+        public UInt32 MetaOffset { get { return metaOffset; } }
+        public UInt32 MetaLength { get { return metaLength; } }
+        public UInt32 MetaOrigLength { get { return metaOrigLength; } }
+        public UInt32 PrivOffset { get { return privOffset; } }
+        public UInt32 PrivLength { get { return privLength; } }
 
         #endregion
 
@@ -92,6 +86,98 @@ namespace ProCode.Woff2Ttf
         UInt32 metaOrigLength;
         UInt32 privOffset;
         UInt32 privLength;
+
+        #endregion
+
+        #region Private Methods
+
+        void ReadProperty(Stream headerStream, out object property)
+        {
+            property = null;
+            int size = System.Runtime.InteropServices.Marshal.SizeOf(property);
+            byte[] propertyArray = new byte[size];
+            headerStream.Read(propertyArray, 0, size);
+
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(propertyArray);
+
+            switch ((string)property.GetType().ToString().Split('.').Last())
+            {
+                case UInt16Name:
+                    property = BitConverter.ToUInt16(propertyArray, 0);
+                    break;
+                case UInt32Name:
+                    property = BitConverter.ToUInt32(propertyArray, 0);
+                    break;
+                default:
+                    throw new ArgumentException("Unexpected type of property.");
+            }
+            
+        }
+
+        #endregion
+
+        #region Read Header Properties
+
+        /// <summary>
+        /// UInt32 signature            0x774F4632 'wOF2'
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadSignature(Stream headerStream)
+        {
+            object outputValue;
+            ReadProperty(headerStream, out outputValue);
+            signature = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 flavor               The "sfnt version" of the input font.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadFlavor(Stream headerStream)
+        {
+            object outputValue;
+            ReadProperty(headerStream, out outputValue);
+            flavor = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 length               Total size of the WOFF file.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadLength(Stream headerStream)
+        {
+            object outputValue;
+            ReadProperty(headerStream, out outputValue);
+            length = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt16 numTables            Number of entries in directory of font tables.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadNumTables(Stream headerStream)
+        {
+            object outputValue;
+            ReadProperty(headerStream, out outputValue);
+            numTables = (UInt16)outputValue;
+        }
+
+        #endregion
+
+        #region Private Constatns
+
+        const string UInt16Name = "UInt16";
+        const string UInt32Name = "UInt32";
+
+        #endregion
+
+        #region Public Constants
+
+        /// <summary>
+        /// Size of Header in Bytes.
+        /// </summary>
+        public static readonly int HeaderSize = 48;
 
         #endregion
     }

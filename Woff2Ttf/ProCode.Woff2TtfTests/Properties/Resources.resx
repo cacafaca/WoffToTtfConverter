@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="arial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="arial_woff2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arial.woff2;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="arial1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="arial_woff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arial.woff;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="arial2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="arial_ttf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arial.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ArialMT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ArialMT_ttf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ArialMT.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

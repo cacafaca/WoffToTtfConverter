@@ -58,6 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Woff2HeaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProCode.Woff2Ttf\ProCode.Woff2Ttf.csproj">
@@ -69,13 +70,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arial.woff" />
-    <None Include="Resources\arial.woff2" />
-    <None Include="Resources\ArialMT.ttf" />
-    <None Include="Resources\arial.ttf" />
+    <EmbeddedResource Include="Resources\arial.woff" />
+    <EmbeddedResource Include="Resources\arial.woff2" />
+    <EmbeddedResource Include="Resources\ArialMT.ttf" />
+    <EmbeddedResource Include="Resources\arial.ttf" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

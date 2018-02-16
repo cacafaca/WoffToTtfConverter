@@ -16,7 +16,7 @@ namespace ProCode.Woff2Ttf
 
         public Woff2(Stream inputData)
         {
-            header = new Woff2Header();
+            header = new Woff2Header(inputData);
         }
 
         #endregion

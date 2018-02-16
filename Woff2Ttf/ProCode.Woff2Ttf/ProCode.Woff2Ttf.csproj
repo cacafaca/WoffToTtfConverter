@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter.cs" />
+    <Compile Include="FontStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Woff.cs" />
     <Compile Include="Woff2.cs" />

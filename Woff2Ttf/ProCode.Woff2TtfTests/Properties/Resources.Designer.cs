@@ -63,9 +63,9 @@ namespace ProCode.Woff2TtfTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] arial {
+        internal static byte[] arial_ttf {
             get {
-                object obj = ResourceManager.GetObject("arial", resourceCulture);
+                object obj = ResourceManager.GetObject("arial_ttf", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace ProCode.Woff2TtfTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] arial1 {
+        internal static byte[] arial_woff {
             get {
-                object obj = ResourceManager.GetObject("arial1", resourceCulture);
+                object obj = ResourceManager.GetObject("arial_woff", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace ProCode.Woff2TtfTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] arial2 {
+        internal static byte[] arial_woff2 {
             get {
-                object obj = ResourceManager.GetObject("arial2", resourceCulture);
+                object obj = ResourceManager.GetObject("arial_woff2", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace ProCode.Woff2TtfTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] ArialMT {
+        internal static byte[] ArialMT_ttf {
             get {
-                object obj = ResourceManager.GetObject("ArialMT", resourceCulture);
+                object obj = ResourceManager.GetObject("ArialMT_ttf", resourceCulture);
                 return ((byte[])(obj));
             }
         }
