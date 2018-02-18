@@ -11,27 +11,27 @@ namespace ProCode.Woff2Ttf
     /// 
     /// Header Structure:
     /// 
-    /// - UInt32 signature            0x774F4632 'wOF2'
-    /// - UInt32 flavor               The "sfnt version" of the input font.
-    /// - UInt32 length               Total size of the WOFF file.
-    /// - UInt16 numTables            Number of entries in directory of font tables.
-    /// - UInt16 reserved             Reserved; set to 0.
-    /// - UInt32 totalSfntSize        Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
-    /// - UInt32 totalCompressedSize  Total length of the compressed data block.
-    /// - UInt16 majorVersion         Major version of the WOFF file.
-    /// - UInt16 minorVersion         Minor version of the WOFF file.
-    /// - UInt32 metaOffset           Offset to metadata block, from beginning of WOFF file.
-    /// - UInt32 metaLength           Length of compressed metadata block.
-    /// - UInt32 metaOrigLength       Uncompressed size of metadata block.
-    /// - UInt32 privOffset           Offset to private data block, from beginning of WOFF file.
-    /// - UInt32  privLength          Length of private data block.    
+    /// - UInt32 signature              0x774F4632 'wOF2'
+    /// - UInt32 flavor                 The "sfnt version" of the input font.
+    /// - UInt32 length                 Total size of the WOFF file.
+    /// - UInt16 numTables              Number of entries in directory of font tables.
+    /// - UInt16 reserved               Reserved; set to 0.
+    /// - UInt32 totalSfntSize          Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
+    /// - UInt32 totalCompressedSize    Total length of the compressed data block.
+    /// - UInt16 majorVersion           Major version of the WOFF file.
+    /// - UInt16 minorVersion           Minor version of the WOFF file.
+    /// - UInt32 metaOffset             Offset to metadata block, from beginning of WOFF file.
+    /// - UInt32 metaLength             Length of compressed metadata block.
+    /// - UInt32 metaOrigLength         Uncompressed size of metadata block.
+    /// - UInt32 privOffset             Offset to private data block, from beginning of WOFF file.
+    /// - UInt32 privLength             Length of private data block.    
     /// 
     /// Sum is 48 Bytes to read.
     /// 
     /// </summary>
     public class Woff2Header
     {
-        #region Constructor
+        #region Constructors
 
         public Woff2Header(Stream headerStream)
         {
@@ -43,7 +43,20 @@ namespace ProCode.Woff2Ttf
                 if (headerStream.Position > 0)
                     headerStream.Position = 0;
 
-                ReadSignature(headerStream); // UInt32 signature            0x774F4632 'wOF2'
+                ReadSignature(headerStream);            // UInt32 signature             0x774F4632 'wOF2'
+                ReadFlavor(headerStream);               // UInt32 flavor                The "sfnt version" of the input font.
+                ReadLength(headerStream);               // UInt32 length                Total size of the WOFF file.
+                ReadNumTables(headerStream);            // UInt16 numTables             Number of entries in directory of font tables.
+                ReadReserved(headerStream);             // - UInt16 reserved            Reserved; set to 0.
+                ReadTotalSfntSize(headerStream);        // - UInt32 totalSfntSize        Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
+                ReadTotalCompressedSize(headerStream);  // - UInt32 totalCompressedSize  Total length of the compressed data block.
+                ReadMajorVersion(headerStream);         // - UInt16 majorVersion         Major version of the WOFF file.
+                ReadMinorVersion(headerStream);         // - UInt16 minorVersion         Minor version of the WOFF file.
+                ReadMetaOffset(headerStream);           // - UInt32 metaOffset           Offset to metadata block, from beginning of WOFF file.
+                ReadMetaLength(headerStream);           // - UInt32 metaLength           Length of compressed metadata block.
+                ReadMetaOrigLength(headerStream);       // - UInt32 metaOrigLength       Uncompressed size of metadata block.
+                ReadPrivOffset(headerStream);           // - UInt32 privOffset           Offset to private data block, from beginning of WOFF file.
+                ReadPrivLength(headerStream);           // - UInt32  privLength          Length of private data block.    
             }
             else
                 throw new ArgumentException("Can't read.");
@@ -91,9 +104,8 @@ namespace ProCode.Woff2Ttf
 
         #region Private Methods
 
-        void ReadProperty(Stream headerStream, out object property)
+        void ReadProperty(Stream headerStream, ref object property)
         {
-            property = null;
             int size = System.Runtime.InteropServices.Marshal.SizeOf(property);
             byte[] propertyArray = new byte[size];
             headerStream.Read(propertyArray, 0, size);
@@ -125,8 +137,8 @@ namespace ProCode.Woff2Ttf
         /// <param name="headerStream"></param>
         private void ReadSignature(Stream headerStream)
         {
-            object outputValue;
-            ReadProperty(headerStream, out outputValue);
+            object outputValue = UInt32.MinValue;
+            ReadProperty(headerStream, ref outputValue);
             signature = (UInt32)outputValue;
         }
 
@@ -136,8 +148,8 @@ namespace ProCode.Woff2Ttf
         /// <param name="headerStream"></param>
         private void ReadFlavor(Stream headerStream)
         {
-            object outputValue;
-            ReadProperty(headerStream, out outputValue);
+            object outputValue = UInt32.MinValue;
+            ReadProperty(headerStream, ref outputValue);
             flavor = (UInt32)outputValue;
         }
 
@@ -147,8 +159,8 @@ namespace ProCode.Woff2Ttf
         /// <param name="headerStream"></param>
         private void ReadLength(Stream headerStream)
         {
-            object outputValue;
-            ReadProperty(headerStream, out outputValue);
+            object outputValue = UInt32.MinValue;
+            ReadProperty(headerStream, ref outputValue);
             length = (UInt32)outputValue;
         }
 
@@ -158,9 +170,119 @@ namespace ProCode.Woff2Ttf
         /// <param name="headerStream"></param>
         private void ReadNumTables(Stream headerStream)
         {
-            object outputValue;
-            ReadProperty(headerStream, out outputValue);
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
             numTables = (UInt16)outputValue;
+        }
+
+        /// <summary>
+        /// UInt16 reserved             Reserved; set to 0.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadReserved(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            reserved = (UInt16)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 totalSfntSize        Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadTotalSfntSize(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            totalSfntSize = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 totalCompressedSize  Total length of the compressed data block.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadTotalCompressedSize(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            totalCompressedSize = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt16 majorVersion         Major version of the WOFF file.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadMajorVersion(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            majorVersion = (UInt16)outputValue;
+        }
+
+        /// <summary>
+        /// UInt16 minorVersion         Minor version of the WOFF file.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadMinorVersion(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            minorVersion = (UInt16)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 metaOffset           Offset to metadata block, from beginning of WOFF file.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadMetaOffset(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            metaOffset = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 metaLength           Length of compressed metadata block.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadMetaLength(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            metaLength = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 metaOrigLength       Uncompressed size of metadata block.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadMetaOrigLength(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            metaOrigLength = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 privOffset             Offset to private data block, from beginning of WOFF file.
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadPrivOffset(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            privOffset = (UInt32)outputValue;
+        }
+
+        /// <summary>
+        /// UInt32 privLength             Length of private data block.    
+        /// </summary>
+        /// <param name="headerStream"></param>
+        private void ReadPrivLength(Stream headerStream)
+        {
+            object outputValue = UInt16.MinValue;
+            ReadProperty(headerStream, ref outputValue);
+            privLength = (UInt32)outputValue;
         }
 
         #endregion
