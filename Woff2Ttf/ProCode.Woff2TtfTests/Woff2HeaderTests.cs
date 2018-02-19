@@ -24,28 +24,51 @@ namespace ProCode.Woff2Ttf.Tests
             }
             Woff2Header h = new Woff2Header(headerResource);
 
+            
+            // Expected values.
+            
+            // Address 00000000:
             UInt32 expectedSignature = 0x774F4632;
             UInt32 expectedFlavor = 0x00010000; // ??
             UInt32 expectedLength = 0x01CD7C;
             UInt16 expectedNumTables = 0x0013;
             UInt16 expectedReserved = 0x0000;
+
+            // Address 00000010:
             UInt32 expectedTotalSfntSize = 0x3FC00;
             UInt32 expectedTotalCompressedSize  =0x1CD10;
-    /// - UInt16 majorVersion         Major version of the WOFF file.
-    /// - UInt16 minorVersion         Minor version of the WOFF file.
-    /// - UInt32 metaOffset           Offset to metadata block, from beginning of WOFF file.
-    /// - UInt32 metaLength           Length of compressed metadata block.
-    /// - UInt32 metaOrigLength       Uncompressed size of metadata block.
-    /// - UInt32 privOffset           Offset to private data block, from beginning of WOFF file.
-    /// - UInt32  privLength          Length of private data block.    
+            UInt16 expectedMajorVersion = 0x0001;
+            UInt16 expectedMinorVersion = 0x0000;
+            UInt32 expectedMetaOffset = 0x00000000;
 
+            // Address 00000020:
+            UInt32 expectedMetaLength = 0x00000000;
+            UInt32 expectedMetaOrigLength = 0x0;
+            UInt32 expectedPrivOffset = 0x0;
+            UInt32 expectedPrivLength = 0x0;
+
+
+            // Assertions.
+
+            // Address 00000000:
             Assert.AreEqual(expectedSignature, h.Signature);
             Assert.AreEqual(expectedFlavor, h.Flavor);
             Assert.AreEqual(expectedLength, h.Length);
             Assert.AreEqual(expectedNumTables, h.NumTables);
             Assert.AreEqual(expectedReserved, h.Reserved);
+
+            // Address 00000010:
             Assert.AreEqual(expectedTotalSfntSize, h.TotalSfntSize);
             Assert.AreEqual(expectedTotalCompressedSize, h.TotalCompressedSize);
+            Assert.AreEqual(expectedMajorVersion, h.MajorVersion);
+            Assert.AreEqual(expectedMinorVersion, h.MinorVersion);
+            Assert.AreEqual(expectedMetaOffset, h.MetaOffset);
+
+            // Address 00000020:
+            Assert.AreEqual(expectedMetaLength, h.MetaLength);
+            Assert.AreEqual(expectedMetaOrigLength, h.MetaOrigLength);
+            Assert.AreEqual(expectedPrivOffset, h.PrivOffset);
+            Assert.AreEqual(expectedPrivLength, h.PrivLength);
         }
     }
 }
