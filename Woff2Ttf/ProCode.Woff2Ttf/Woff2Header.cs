@@ -51,16 +51,16 @@ namespace ProCode.Woff2Ttf
                     ReadFlavor(headerStream);               // UInt32 flavor                The "sfnt version" of the input font.
                     ReadLength(headerStream);               // UInt32 length                Total size of the WOFF file.
                     ReadNumTables(headerStream);            // UInt16 numTables             Number of entries in directory of font tables.
-                    ReadReserved(headerStream);             // UInt16 reserved            Reserved; set to 0.
-                    ReadTotalSfntSize(headerStream);        // UInt32 totalSfntSize        Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
-                    ReadTotalCompressedSize(headerStream);  // UInt32 totalCompressedSize  Total length of the compressed data block.
-                    ReadMajorVersion(headerStream);         // UInt16 majorVersion         Major version of the WOFF file.
-                    ReadMinorVersion(headerStream);         // UInt16 minorVersion         Minor version of the WOFF file.
-                    ReadMetaOffset(headerStream);           // UInt32 metaOffset           Offset to metadata block, from beginning of WOFF file.
-                    ReadMetaLength(headerStream);           // UInt32 metaLength           Length of compressed metadata block.
-                    ReadMetaOrigLength(headerStream);       // UInt32 metaOrigLength       Uncompressed size of metadata block.
-                    ReadPrivOffset(headerStream);           // UInt32 privOffset           Offset to private data block, from beginning of WOFF file.
-                    ReadPrivLength(headerStream);           // UInt32  privLength          Length of private data block.    
+                    ReadReserved(headerStream);             // UInt16 reserved              Reserved; set to 0.
+                    ReadTotalSfntSize(headerStream);        // UInt32 totalSfntSize         Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
+                    ReadTotalCompressedSize(headerStream);  // UInt32 totalCompressedSize   Total length of the compressed data block.
+                    ReadMajorVersion(headerStream);         // UInt16 majorVersion          Major version of the WOFF file.
+                    ReadMinorVersion(headerStream);         // UInt16 minorVersion          Minor version of the WOFF file.
+                    ReadMetaOffset(headerStream);           // UInt32 metaOffset            Offset to metadata block, from beginning of WOFF file.
+                    ReadMetaLength(headerStream);           // UInt32 metaLength            Length of compressed metadata block.
+                    ReadMetaOrigLength(headerStream);       // UInt32 metaOrigLength        Uncompressed size of metadata block.
+                    ReadPrivOffset(headerStream);           // UInt32 privOffset            Offset to private data block, from beginning of WOFF file.
+                    ReadPrivLength(headerStream);           // UInt32 privLength            Length of private data block.    
 
                     valid = true;
                 }

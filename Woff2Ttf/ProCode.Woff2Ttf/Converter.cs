@@ -25,6 +25,28 @@ namespace ProCode.Woff2Ttf
             return null;
         }
 
+        public static Stream FromBase128(Stream encodedStream)
+        {
+            Stream decodedStream = new MemoryStream();
+
+            if (encodedStream.CanRead)
+            {
+                UInt32 acum = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    var readValue = encodedStream.ReadByte();
+                    if (readValue != -1)
+                    {
+                        byte data = Convert.ToByte(readValue);
+
+                    }
+                }
+            }
+            else
+                throw new Exception("Can't read stream.");
+
+            return decodedStream;
+        }
         #endregion
     }
 }
