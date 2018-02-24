@@ -22,7 +22,7 @@ namespace ProCode.Woff2Ttf.Tests
                 resource.Read(header, 0, header.Length);
                 headerResource = new MemoryStream(header);
             }
-            Woff2Header h = new Woff2Header(headerResource);
+            Woff2Header woff2Header = new Woff2Header(headerResource);
 
             
             // Expected values.
@@ -51,24 +51,24 @@ namespace ProCode.Woff2Ttf.Tests
             // Assertions.
 
             // Address 00000000:
-            Assert.AreEqual(expectedSignature, h.Signature);
-            Assert.AreEqual(expectedFlavor, h.Flavor);
-            Assert.AreEqual(expectedLength, h.Length);
-            Assert.AreEqual(expectedNumTables, h.NumTables);
-            Assert.AreEqual(expectedReserved, h.Reserved);
+            Assert.AreEqual(expectedSignature, woff2Header.Signature);
+            Assert.AreEqual(expectedFlavor, woff2Header.Flavor);
+            Assert.AreEqual(expectedLength, woff2Header.Length);
+            Assert.AreEqual(expectedNumTables, woff2Header.NumTables);
+            Assert.AreEqual(expectedReserved, woff2Header.Reserved);
 
             // Address 00000010:
-            Assert.AreEqual(expectedTotalSfntSize, h.TotalSfntSize);
-            Assert.AreEqual(expectedTotalCompressedSize, h.TotalCompressedSize);
-            Assert.AreEqual(expectedMajorVersion, h.MajorVersion);
-            Assert.AreEqual(expectedMinorVersion, h.MinorVersion);
-            Assert.AreEqual(expectedMetaOffset, h.MetaOffset);
+            Assert.AreEqual(expectedTotalSfntSize, woff2Header.TotalSfntSize);
+            Assert.AreEqual(expectedTotalCompressedSize, woff2Header.TotalCompressedSize);
+            Assert.AreEqual(expectedMajorVersion, woff2Header.MajorVersion);
+            Assert.AreEqual(expectedMinorVersion, woff2Header.MinorVersion);
+            Assert.AreEqual(expectedMetaOffset, woff2Header.MetaOffset);
 
             // Address 00000020:
-            Assert.AreEqual(expectedMetaLength, h.MetaLength);
-            Assert.AreEqual(expectedMetaOrigLength, h.MetaOrigLength);
-            Assert.AreEqual(expectedPrivOffset, h.PrivOffset);
-            Assert.AreEqual(expectedPrivLength, h.PrivLength);
+            Assert.AreEqual(expectedMetaLength, woff2Header.MetaLength);
+            Assert.AreEqual(expectedMetaOrigLength, woff2Header.MetaOrigLength);
+            Assert.AreEqual(expectedPrivOffset, woff2Header.PrivOffset);
+            Assert.AreEqual(expectedPrivLength, woff2Header.PrivLength);
         }
     }
 }

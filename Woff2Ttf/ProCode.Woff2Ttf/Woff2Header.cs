@@ -10,21 +10,23 @@ namespace ProCode.Woff2Ttf
     /// <summary>
     /// 
     /// Header Structure:
-    /// 
-    /// - UInt32 signature              0x774F4632 'wOF2'
-    /// - UInt32 flavor                 The "sfnt version" of the input font.
-    /// - UInt32 length                 Total size of the WOFF file.
-    /// - UInt16 numTables              Number of entries in directory of font tables.
-    /// - UInt16 reserved               Reserved; set to 0.
-    /// - UInt32 totalSfntSize          Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
-    /// - UInt32 totalCompressedSize    Total length of the compressed data block.
-    /// - UInt16 majorVersion           Major version of the WOFF file.
-    /// - UInt16 minorVersion           Minor version of the WOFF file.
-    /// - UInt32 metaOffset             Offset to metadata block, from beginning of WOFF file.
-    /// - UInt32 metaLength             Length of compressed metadata block.
-    /// - UInt32 metaOrigLength         Uncompressed size of metadata block.
-    /// - UInt32 privOffset             Offset to private data block, from beginning of WOFF file.
-    /// - UInt32 privLength             Length of private data block.    
+    ///                             -=   Position   =-
+    /// Type    Name                Address     Offset  Description
+    /// ==============================================================================================
+    /// UInt32  signature           00000000    0       0x774F4632 'wOF2'
+    /// UInt32  flavor              00000000    4       The "sfnt version" of the input font.
+    /// UInt32  length              00000000    8       Total size of the WOFF file.
+    /// UInt16  numTables           00000000    c       Number of entries in directory of font tables.
+    /// UInt16  reserved            00000000    d       Reserved; set to 0.
+    /// UInt32  totalSfntSize       00000001    0       Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding). 
+    /// UInt32  totalCompressedSize 00000001    4       Total length of the compressed data block.
+    /// UInt16  majorVersion        00000001    8       Major version of the WOFF file.
+    /// UInt16  minorVersion        00000001    a       Minor version of the WOFF file.
+    /// UInt32  metaOffset          00000001    c       Offset to metadata block, from beginning of WOFF file.
+    /// UInt32  metaLength          00000002    0       Length of compressed metadata block.
+    /// UInt32  metaOrigLength      00000002    4       Uncompressed size of metadata block.
+    /// UInt32  privOffset          00000002    8       Offset to private data block, from beginning of WOFF file.
+    /// UInt32  privLength          00000002    c       Length of private data block.    
     /// 
     /// Sum is 48 Bytes to read.
     /// 
@@ -45,30 +47,25 @@ namespace ProCode.Woff2Ttf
                 if (headerStream.Position > 0)
                     headerStream.Position = 0;
 
-                if (headerStream.CanRead)
-                {
-                    ReadSignature(headerStream);            // UInt32 signature             0x774F4632 'wOF2'
-                    ReadFlavor(headerStream);               // UInt32 flavor                The "sfnt version" of the input font.
-                    ReadLength(headerStream);               // UInt32 length                Total size of the WOFF file.
-                    ReadNumTables(headerStream);            // UInt16 numTables             Number of entries in directory of font tables.
-                    ReadReserved(headerStream);             // UInt16 reserved              Reserved; set to 0.
-                    ReadTotalSfntSize(headerStream);        // UInt32 totalSfntSize         Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
-                    ReadTotalCompressedSize(headerStream);  // UInt32 totalCompressedSize   Total length of the compressed data block.
-                    ReadMajorVersion(headerStream);         // UInt16 majorVersion          Major version of the WOFF file.
-                    ReadMinorVersion(headerStream);         // UInt16 minorVersion          Minor version of the WOFF file.
-                    ReadMetaOffset(headerStream);           // UInt32 metaOffset            Offset to metadata block, from beginning of WOFF file.
-                    ReadMetaLength(headerStream);           // UInt32 metaLength            Length of compressed metadata block.
-                    ReadMetaOrigLength(headerStream);       // UInt32 metaOrigLength        Uncompressed size of metadata block.
-                    ReadPrivOffset(headerStream);           // UInt32 privOffset            Offset to private data block, from beginning of WOFF file.
-                    ReadPrivLength(headerStream);           // UInt32 privLength            Length of private data block.    
+                ReadSignature(headerStream);            // UInt32 signature             0x774F4632 'wOF2'
+                ReadFlavor(headerStream);               // UInt32 flavor                The "sfnt version" of the input font.
+                ReadLength(headerStream);               // UInt32 length                Total size of the WOFF file.
+                ReadNumTables(headerStream);            // UInt16 numTables             Number of entries in directory of font tables.
+                ReadReserved(headerStream);             // UInt16 reserved              Reserved; set to 0.
+                ReadTotalSfntSize(headerStream);        // UInt32 totalSfntSize         Total size needed for the uncompressed font data, including the sfnt header, directory, and font tables(including padding).
+                ReadTotalCompressedSize(headerStream);  // UInt32 totalCompressedSize   Total length of the compressed data block.
+                ReadMajorVersion(headerStream);         // UInt16 majorVersion          Major version of the WOFF file.
+                ReadMinorVersion(headerStream);         // UInt16 minorVersion          Minor version of the WOFF file.
+                ReadMetaOffset(headerStream);           // UInt32 metaOffset            Offset to metadata block, from beginning of WOFF file.
+                ReadMetaLength(headerStream);           // UInt32 metaLength            Length of compressed metadata block.
+                ReadMetaOrigLength(headerStream);       // UInt32 metaOrigLength        Uncompressed size of metadata block.
+                ReadPrivOffset(headerStream);           // UInt32 privOffset            Offset to private data block, from beginning of WOFF file.
+                ReadPrivLength(headerStream);           // UInt32 privLength            Length of private data block.    
 
-                    valid = true;
-                }
-                else
-                    throw new CantReadStreamException("Can't read.", headerStream);  // Probably is better to have custom exception.
+                valid = true;
             }
             else
-                throw new ArgumentException("Can't read.");
+                throw new CantReadStreamException("Can't read.", headerStream);
         }
 
         #endregion
@@ -91,6 +88,28 @@ namespace ProCode.Woff2Ttf
         public UInt32 PrivLength { get { return privLength; } }
 
         public bool Valid { get { return valid; } }
+
+        #endregion
+
+        #region Public Constants
+
+        /// <summary>
+        /// Size of Header in Bytes.
+        /// </summary>
+        public static readonly int HeaderSize = 48;
+
+        #endregion
+
+        #region Public Methods
+
+        public override string ToString()
+        {
+            return $"{nameof(Signature)}: {signature}, {nameof(Flavor)}: {flavor}, {nameof(Length)}: {length}, " +
+                $"{nameof(NumTables)}: {numTables}, {nameof(Reserved)}: {reserved}, {nameof(TotalSfntSize)}: {totalSfntSize}, " +
+                $"{nameof(TotalCompressedSize)}: {totalCompressedSize}, {nameof(MajorVersion)}: {majorVersion}, " +
+                $"{nameof(MinorVersion)}: {minorVersion}, {nameof(MetaOffset)}: {metaOffset}, {nameof(MetaLength)}: {metaLength}, " +
+                $"{nameof(MetaOrigLength)}: {metaOrigLength}, {nameof(PrivOffset)}: {privOffset}, {nameof(PrivLength)}: {privLength}";
+        }
 
         #endregion
 
@@ -304,15 +323,6 @@ namespace ProCode.Woff2Ttf
 
         const string UInt16Name = "UInt16";
         const string UInt32Name = "UInt32";
-
-        #endregion
-
-        #region Public Constants
-
-        /// <summary>
-        /// Size of Header in Bytes.
-        /// </summary>
-        public static readonly int HeaderSize = 48;
 
         #endregion
     }
